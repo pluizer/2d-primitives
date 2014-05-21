@@ -85,7 +85,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 ;-------------------------------------------------------
 
 ; Returs a new vector
-(define (make-vect x y)
+(define (create-vect x y)
   (f64vector x y))
 
 (define (vect-x v)
@@ -96,7 +96,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Constant for the zero vector.
 (define (vect-zero)
-  (make-vect 0 0))
+  (create-vect 0 0))
 
 ; Check if two vectors are equal. (Be careful when comparing floating point numbers!)
 (define (vect=? a b)
@@ -105,19 +105,19 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Add two vectors.
 (define (vect+ a b)
-  (make-vect (+ (vect-x a) (vect-x b))
+  (create-vect (+ (vect-x a) (vect-x b))
 	     (+ (vect-y a) (vect-y b))))
 
 ; Subtract two vectors or negate a vector.
 (define (vect- a #!optional b)
-  (if b (make-vect (- (vect-x a) (vect-x b))
+  (if b (create-vect (- (vect-x a) (vect-x b))
 		   (- (vect-y a) (vect-y b)))
-      (make-vect (- (vect-x a))
+      (create-vect (- (vect-x a))
 		 (- (vect-y a)))))
 
 ; Scalar multiplication.
 (define (vect* v s)
-  (make-vect (* (vect-x v) s)
+  (create-vect (* (vect-x v) s)
 	     (* (vect-y v) s)))
 
 ; Vector dot product.
@@ -137,11 +137,11 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 	(vect-x b))))
 ; Returns a perpendicular vector. (90 degree rotation)
 (define (vect-perp v)
-  (make-vect (- (vect-y v)) (vect-x v)))
+  (create-vect (- (vect-y v)) (vect-x v)))
 
 ; Returns a perpendicular vector. (-90 degree rotation)
 (define (vect-vperp v)
-  (make-vect (vect-y v) (- (vect-x v))))
+  (create-vect (vect-y v) (- (vect-x v))))
 
 ; Returns the vector projection of /a/ onto /b/.
 (define (vect-project a b)
@@ -150,7 +150,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Returns the unit length vector for the given angle (in radians).
 (define (angle->vect a)
-  (make-vect (cos a) (sin a)))
+  (create-vect (cos a) (sin a)))
 
 ; Returns the angular direction v is pointing in (in radians).
 (define (vect->angle v)
@@ -158,14 +158,14 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Uses complex number multiplication to rotate /a/ by /b/. Scaling will occur if /a/ is not a unit vector.
 (define (vect-rotate a b)
-  (make-vect (+ (* (vect-x a) (vect-x b))
+  (create-vect (+ (* (vect-x a) (vect-x b))
 		(* (vect-y a) (vect-y b)))
 	     (- (* (vect-x a) (vect-y b)
 		   (vect-y a) (vect-x b)))))
 
 ; Inverse of vect-rotate
 (define (vect-unrotate a b)
-  (make-vect (+ (* (vect-x a) (vect-x b))
+  (create-vect (+ (* (vect-x a) (vect-x b))
 		(* (vect-y a) (vect-y b)))
 	     (- (* (vect-y a) (vect-x b)
 		   (vect-x a) (vect-y b)))))
@@ -230,7 +230,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 ;-------------------------------------------------------
 
 ; Returs a new bounding box.
-(define (make-bb l b r t)
+(define (create-bb l b r t)
   (f64vector l b r t))
 
 (define (bb-l bb)
@@ -246,8 +246,8 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
   (f64vector-ref bb 3))
 
 ; Constructs a /bb/ for a circle with the given position and radius.
-(define (make-bb-for-circle p r)
-  (make-bb (- (vect-x p) r)
+(define (create-bb-for-circle p r)
+  (create-bb (- (vect-x p) r)
 	   (- (vect-y p) r)
 	   (+ (vect-x p) r)
 	   (+ (vect-y p) r)))
@@ -275,22 +275,22 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Returns a bounding box that holds both bounding boxes.
 (define (bb-merge a b)
-  (make-bb (min (bb-l a) (bb-l b))
+  (create-bb (min (bb-l a) (bb-l b))
 	   (min (bb-b a) (bb-b b))
 	   (max (bb-r a) (bb-r b))
 	   (max (bb-t a) (bb-t b))))
 
 ; Returns a bounding box that holds both /bb/ and /v/.
 (define (bb-expand bb v)
-  (make-bb (min (bb-l bb) (vect-x v))
+  (create-bb (min (bb-l bb) (vect-x v))
 	   (min (bb-b bb) (vect-x v))
 	   (max (bb-r bb) (vect-y v))
 	   (max (bb-t bb) (vect-y v))))
 
 ; Returns the center of a bounding box.
 (define (bb-center bb)
-  (vect-lerp (make-vect (bb-l bb) (bb-b bb))
-	     (make-vect (bb-r bb) (bb-t bb))
+  (vect-lerp (create-vect (bb-l bb) (bb-b bb))
+	     (create-vect (bb-r bb) (bb-t bb))
 	     0.5))
 
 ; Returns the area of the bounding box.
@@ -342,7 +342,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
   (not (= (bb-segment-query bb a b) infinity)))
 
 (define (bb-clamp-vect bb v)
-  (make-vect (clamp (vect-x v) (bb-l bb) (bb-r bb))
+  (create-vect (clamp (vect-x v) (bb-l bb) (bb-r bb))
 	     (clamp (vect-y v) (bb-b bb) (bb-t bb))))
 
 ;-------------------------------------------------------
@@ -350,7 +350,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 ;-------------------------------------------------------
 
 ; Makes a line from two vectors
-(define (make-line a b)
+(define (create-line a b)
   (f64vector (vect-x a) (vect-y a)
 	     (vect-x b) (vect-y b)))
 
@@ -359,7 +359,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 ;-------------------------------------------------------
 
 ; Creates a new polygon from a list of vectors.
-(define-syntax make-polygon
+(define-syntax create-polygon
   (syntax-rules ()
     ((_  vects)
      (list->f64vector (append-map f64vector->list vects)))))
@@ -367,7 +367,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 ; Triangulates the given polygon and returns a list of triangles.
 (define (polygon-triangulate polygon)
   (let* ((return-size (- (* (f64vector-length polygon) 3) 12))
-         (res (make-f64vector return-size)))
+         (res (create-f64vector return-size)))
     ((foreign-lambda* void ((f64vector polygon)
                             (f64vector res)
                             (integer polygonSize)
@@ -442,7 +442,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 ;-------------------------------------------------------
 
 ; Creates a new RGB colour
-(define (make-rgb r g b #!optional (a 1.0))
+(define (create-rgb r g b #!optional (a 1.0))
   (f64vector r g b a))
 
 (define (rgb-r rgb)
@@ -469,18 +469,18 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 	(let* ((v mmax)
 	       (s (/ c v)))
 	  (cond ((= mmax r)
-		 (make-hsv (%wrap-degree
+		 (create-hsv (%wrap-degree
 			    (* (fmod (/ (- g b) c) 6.0) 60.0)) s v a))
 		((= mmax g)
-		 (make-hsv (%wrap-degree
+		 (create-hsv (%wrap-degree
 			    (* (+ (/ (- b r) c) 2.0) 60.0)) s v a))
 		(else
-		 (make-hsv (%wrap-degree
+		 (create-hsv (%wrap-degree
 			    (* (+ (/ (- r g) c) 4.0) 60.0)) s v a))))
-	(make-hsv 0 0 0 a))))
+	(create-hsv 0 0 0 a))))
 
 ; Creates a new HSV colour
-(define (make-hsv h s v #!optional (a 1.0))
+(define (create-hsv h s v #!optional (a 1.0))
   (f64vector h s v a))
 
 (define (hsv-h hsv)
@@ -506,16 +506,16 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 	 (m (- v c)))
     (cond
      ((and (>= h 0.0)
-	   (<  h 60.0))  (make-rgb (+ c m) (+ x m) m a))
+	   (<  h 60.0))  (create-rgb (+ c m) (+ x m) m a))
      ((and (>= h 60.0)
-	   (<  h 120.0)) (make-rgb (+ x m) (+ c m) m a))
+	   (<  h 120.0)) (create-rgb (+ x m) (+ c m) m a))
      ((and (>= h 120.0)
-	   (<  h 180.0)) (make-rgb m (+ c m) (+ x m) a))
+	   (<  h 180.0)) (create-rgb m (+ c m) (+ x m) a))
      ((and (>= h 180.0)
-	   (<  h 240.0)) (make-rgb m (+ x m) (+ c m) a))
+	   (<  h 240.0)) (create-rgb m (+ x m) (+ c m) a))
      ((and (>= h 240.0)
-	   (<  h 300.0)) (make-rgb (+ x m) m (+ c m) a))
+	   (<  h 300.0)) (create-rgb (+ x m) m (+ c m) a))
      ((and (>= h 300.0)
-	   (<  h 360.0)) (make-rgb (+ c m) m (+ x m) a))
-     (else (make-rgb m m m a)))))
+	   (<  h 360.0)) (create-rgb (+ c m) m (+ x m) a))
+     (else (create-rgb m m m a)))))
 )
