@@ -19,7 +19,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Large parts of this egg are proted from Chipmunk2D's cpVect.h by Scott Lembcke and Howling Moon Software.
+Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 |#
 
 (module coati-primitives
@@ -37,8 +37,6 @@ Large parts of this egg are proted from Chipmunk2D's cpVect.h by Scott Lembcke a
 ; %
 ;-------------------------------------------------------
 
-(define fmod (foreign-lambda double "fmod" double double))
-
 (define (%wrap-degree v)
   (if (negative? v) (+ 360 v) v))
 
@@ -50,19 +48,23 @@ Large parts of this egg are proted from Chipmunk2D's cpVect.h by Scott Lembcke a
 	      (- n size)))))
 
 ;-------------------------------------------------------
-; float
+; Float
 ;-------------------------------------------------------
+
+(define fmod (foreign-lambda double "fmod" double double))
 
 (define (clamp f mmin mmax)
   (min (max f mmin) mmax))
 
-;-------------------------------------------------------
-; Constants
-;-------------------------------------------------------
+(define (sqr x) (* x x))
 
 (define double-min (foreign-value "DBL_MIN" double))
 
 (define infinity (foreign-value "INFINITY" double))
+
+;-------------------------------------------------------
+; Constants
+;-------------------------------------------------------
 
 (define epsilon 1e-6)
 
@@ -74,11 +76,9 @@ Large parts of this egg are proted from Chipmunk2D's cpVect.h by Scott Lembcke a
 
 (define -pi (- pi))
 
-(define 2pi/360 (/ 2pi 360.0))
-
 (define 360/2pi (/ 360.0 2pi))
 
-(define (sqr x) (* x x))
+(define 2pi/360 (/ 2pi 360.0))
 
 ;-------------------------------------------------------
 ; Vectors
