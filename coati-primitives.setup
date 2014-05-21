@@ -1,0 +1,3 @@
+(compile -s -c++ -O3 -d1 triangulate.cc coati-primitives.scm -j coati-primitives -C -std=c++11)
+(compile -s -O3 -d0 coati-primitives.import.scm)
+(install-extension 'coati '("coati-primitives.so" "coati-primitives.import.so"))

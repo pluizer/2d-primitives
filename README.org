@@ -1,0 +1,1 @@
+A collection of primitives and linear algebra common for 2D graphics and 2D games.
