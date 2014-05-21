@@ -367,7 +367,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 ; Triangulates the given polygon and returns a list of triangles.
 (define (polygon-triangulate polygon)
   (let* ((return-size (- (* (f64vector-length polygon) 3) 12))
-         (res (create-f64vector return-size)))
+         (res (make-f64vector return-size)))
     ((foreign-lambda* void ((f64vector polygon)
                             (f64vector res)
                             (integer polygonSize)
