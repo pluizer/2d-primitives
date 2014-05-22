@@ -30,10 +30,10 @@ inline bool isOrientedCcw(const Vector& a, const Vector& b, const Vector& c)
 // check if a and b are on the same side of the line c->d
 bool onSameSide(const Vector& a, const Vector& b, const Vector& c, const Vector& d)
 {
-	double px = d.x - c.x, py = d.y - c.y;
+	float px = d.x - c.x, py = d.y - c.y;
 	// return det(p, a-c) * det(p, b-c) >= 0
-	double l = px * (a.y - c.y) - py * (a.x - c.x);
-	double m = px * (b.y - c.y) - py * (b.x - c.x);
+	float l = px * (a.y - c.y) - py * (a.x - c.x);
+	float m = px * (b.y - c.y) - py * (b.x - c.x);
 	return l * m >= 0;
 }
 
@@ -138,7 +138,7 @@ bool isConvex(Vector* polygon, unsigned size)
 	size_t i = size - 2, j = size - 1, k = 0;
 	Vector p{polygon[j].x - polygon[i].x, polygon[j].y - polygon[i].y};
 	Vector q{polygon[k].x - polygon[j].x, polygon[k].y - polygon[j].y};
-	double winding = p.x*q.y - p.y*q.x;
+	float winding = p.x*q.y - p.y*q.x;
 
 	while (k+1 < size)
 	{

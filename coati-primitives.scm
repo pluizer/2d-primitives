@@ -40,27 +40,27 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 (define (%wrap-degree v)
   (if (negative? v) (+ 360 v) v))
 
-(define (%f64vector-part v size)
-  (assert (zero? (modulo (f64vector-length v) size)))
-  (let loop ((r (list)) (n (f64vector-length v)))
+(define (%f32vector-part v size)
+  (assert (zero? (modulo (f32vector-length v) size)))
+  (let loop ((r (list)) (n (f32vector-length v)))
     (if (= n 0) r
-	(loop (cons (subf64vector v (- n size) n) r)
+	(loop (cons (subf32vector v (- n size) n) r)
 	      (- n size)))))
 
 ;-------------------------------------------------------
 ; Float
 ;-------------------------------------------------------
 
-(define fmod (foreign-lambda double "fmod" double double))
+(define fmod (foreign-lambda float "fmod" float float))
 
 (define (clamp f mmin mmax)
   (min (max f mmin) mmax))
 
 (define (sqr x) (* x x))
 
-(define double-min (foreign-value "DBL_MIN" double))
+(define float-min (foreign-value "DBL_MIN" float))
 
-(define infinity (foreign-value "INFINITY" double))
+(define infinity (foreign-value "INFINITY" float))
 
 ;-------------------------------------------------------
 ; Constants
@@ -86,13 +86,13 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Returs a new vector
 (define (create-vect x y)
-  (f64vector x y))
+  (f32vector x y))
 
 (define (vect-x v)
-  (f64vector-ref v 0))
+  (f32vector-ref v 0))
 
 (define (vect-y v)
-  (f64vector-ref v 1))
+  (f32vector-ref v 1))
 
 ; Constant for the zero vector.
 (define (vect-zero)
@@ -185,7 +185,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Returns a normalized copy of v.
 (define (vect-normalize v)
-  (vect* v (/ 1.0 (+ (vect-length v) double-min))))
+  (vect* v (/ 1.0 (+ (vect-length v) float-min))))
 
 ; Clamp v to length len.
 (define (vect-clamp v len)
@@ -231,19 +231,19 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Returs a new bounding box.
 (define (create-bb l b r t)
-  (f64vector l b r t))
+  (f32vector l b r t))
 
 (define (bb-l bb)
-  (f64vector-ref bb 0))
+  (f32vector-ref bb 0))
 
 (define (bb-b bb)
-  (f64vector-ref bb 1))
+  (f32vector-ref bb 1))
 
 (define (bb-r bb)
-  (f64vector-ref bb 2))
+  (f32vector-ref bb 2))
 
 (define (bb-t bb)
-  (f64vector-ref bb 3))
+  (f32vector-ref bb 3))
 
 ; Constructs a /bb/ for a circle with the given position and radius.
 (define (create-bb-for-circle p r)
@@ -351,7 +351,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Makes a line from two vectors
 (define (create-line a b)
-  (f64vector (vect-x a) (vect-y a)
+  (f32vector (vect-x a) (vect-y a)
 	     (vect-x b) (vect-y b)))
 
 ;-------------------------------------------------------
@@ -362,14 +362,14 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 (define-syntax create-polygon
   (syntax-rules ()
     ((_  vects)
-     (list->f64vector (append-map f64vector->list vects)))))
+     (list->f32vector (append-map f32vector->list vects)))))
 
 ; Triangulates the given polygon and returns a list of triangles.
 (define (polygon-triangulate polygon)
-  (let* ((return-size (- (* (f64vector-length polygon) 3) 12))
-         (res (make-f64vector return-size)))
-    ((foreign-lambda* void ((f64vector polygon)
-                            (f64vector res)
+  (let* ((return-size (- (* (f32vector-length polygon) 3) 12))
+         (res (make-f32vector return-size)))
+    ((foreign-lambda* void ((f32vector polygon)
+                            (f32vector res)
                             (integer polygonSize)
                             (integer returnSize)) "
 	std::vector<Vector> vec;
@@ -377,20 +377,20 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 	memcpy(vec.data(), polygon, sizeof(Vector)*(polygonSize/2));
 	std::vector<Triangle> tmp = triangulate(vec);
 	memcpy(res, tmp.data(), returnSize*sizeof(Vector));")
-     polygon res (f64vector-length polygon) return-size)
+     polygon res (f32vector-length polygon) return-size)
     ; Chop the result into a list of triangles.
-    (%f64vector-part res 3)))
+    (%f32vector-part res 3)))
 
 ; Return #t if the given polygon is convex.
 (define (polygon-convex? polygon)
-  ((foreign-lambda* bool ((f64vector polygon)
+  ((foreign-lambda* bool ((f32vector polygon)
                           (unsigned-integer length)) "
 	C_return( isConvex((Vector*)polygon, length) );")
-   polygon (f64vector-length polygon)))
+   polygon (f32vector-length polygon)))
 
 ; Converts a polygon to a list of vertices.
 (define (polygon->vects polygon)
-  (%f64vector-part polygon 2))
+  (%f32vector-part polygon 2))
 
 (define (%sort-vects vects)
   (sort vects
@@ -443,19 +443,19 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Creates a new RGB colour
 (define (create-rgb r g b #!optional (a 1.0))
-  (f64vector r g b a))
+  (f32vector r g b a))
 
 (define (rgb-r rgb)
-  (f64vector-ref rgb 0))
+  (f32vector-ref rgb 0))
 
 (define (rgb-g rgb)
-  (f64vector-ref rgb 1))
+  (f32vector-ref rgb 1))
 
 (define (rgb-b rgb)
-  (f64vector-ref rgb 2))
+  (f32vector-ref rgb 2))
 
 (define (rgb-a rgb)
-  (f64vector-ref rgb 3))
+  (f32vector-ref rgb 3))
 
 (define (rgb->hsv rgb)
   (let* ((r (rgb-r rgb))
@@ -481,19 +481,19 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 
 ; Creates a new HSV colour
 (define (create-hsv h s v #!optional (a 1.0))
-  (f64vector h s v a))
+  (f32vector h s v a))
 
 (define (hsv-h hsv)
-  (f64vector-ref hsv 0))
+  (f32vector-ref hsv 0))
 
 (define (hsv-s hsv)
-  (f64vector-ref hsv 1))
+  (f32vector-ref hsv 1))
 
 (define (hsv-v hsv)
-  (f64vector-ref hsv 2))
+  (f32vector-ref hsv 2))
 
 (define (hsv-a hsv)
-  (f64vector-ref hsv 3))
+  (f32vector-ref hsv 3))
 
 (define (hsv->rgb hsv)
   (let* ((h (hsv-h hsv))

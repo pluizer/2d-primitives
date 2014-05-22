@@ -27,7 +27,7 @@
 
 struct Vector
 {
-	double x, y;
+	float x, y;
 };
 
 struct Triangle
