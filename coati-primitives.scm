@@ -364,7 +364,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
     ((_  vects)
      (list->f32vector (append-map f32vector->list vects)))))
 
-; Triangulates the given polygon and returns a list of triangles.
+; Triangulates the given polygon and returns an array of vectors.
 (define (polygon-triangulate polygon)
   (let* ((return-size (- (* (f32vector-length polygon) 3) 12))
          (res (make-f32vector return-size)))
@@ -378,8 +378,11 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
 	std::vector<Triangle> tmp = triangulate(vec);
 	memcpy(res, tmp.data(), returnSize*sizeof(Vector));")
      polygon res (f32vector-length polygon) return-size)
-    ; Chop the result into a list of triangles.
-    (%f32vector-part res 3)))
+    res))
+
+; Same as polygon-triangulate but returns a list of triangles.
+(define (polygon-triangulate->triangles polygon)
+  (%f32vector-part (polygon-triangulate polygon) 6))
 
 ; Return #t if the given polygon is convex.
 (define (polygon-convex? polygon)
@@ -518,4 +521,7 @@ Large parts of this egg are ported from Chipmunk2D's cpVect.h (c) 2007 - Scott L
      ((and (>= h 300.0)
 	   (<  h 360.0)) (create-rgb (+ c m) m (+ x m) a))
      (else (create-rgb m m m a)))))
+
 )
+
+
