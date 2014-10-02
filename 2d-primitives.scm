@@ -37,13 +37,17 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 ;; Float
 ;;-------------------------------------------------------
 
+;; Returns the floating-point remainder of numer/denom (rounded towards zero).
 (define fmod (foreign-lambda float "fmod" float float))
 
+;; Clamp a floating-point number to a minimum and a maximum value.
 (define (clamp f mmin mmax)
   (min (max f mmin) mmax))
 
+;; Square a number.
 (define (sqr x) (* x x))
 
+;; Minimum representable floating-point number.
 (define float-min (foreign-value "DBL_MIN" float))
 
 (define infinity (foreign-value "INFINITY" float))

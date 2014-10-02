@@ -1,6 +1,13 @@
-((author "Richard van Roy")
- (synopsis "")
- (files "2d-primitives.setup" "triangulate.cc" 
- 	"2d-primitives.scm"
-	"triangulate.cc"
-	"triangulate.h"))
+(
+
+(author "Richard van Roy")
+(synopsis "A collection of primitives and linear algebra common for 2D graphics and 2D games.")
+(license "BSD")
+(category ui)
+(files "2d-primitives.setup"
+       "triangulate.cc" 
+       "2d-primitives.scm"
+       "triangulate.cc"
+       "triangulate.h")
+
+)
