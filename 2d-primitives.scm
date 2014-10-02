@@ -23,7 +23,7 @@ Parts of this file are ported to Chicken Scheme from
 Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 |#
 
-(module coati-primitives
+(module 2d-primitives
 *
 (import chicken scheme foreign)
 (use data-structures srfi-1 srfi-4)

@@ -1,0 +1,6 @@
+((author "Richard van Roy")
+ (synopsis "")
+ (files "2d-primitives.setup" "triangulate.cc" 
+ 	"2d-primitives.scm"
+	"triangulate.cc"
+	"triangulate.h"))

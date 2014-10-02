@@ -1,3 +1,0 @@
-((author "Richard van Roy")
- (synopsis "")
- (files "coati-primitives.setup" "triangulate.cc" "coati-primitives.scm"))
