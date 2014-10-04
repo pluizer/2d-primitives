@@ -604,11 +604,88 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
      (else (rgb:create m m m a)))))
 
 ;;-------------------------------------------------------
+;; Bezier
+;;-------------------------------------------------------
+
+;; Creates a new bezier curve with a minimum of two
+;; control-points.
+(define (bezier:create #!rest control-points)
+  (when (< (length control-points) 2)
+    (error "must have more than two control-points."))
+  (apply list control-points))
+
+(define (%subdivide points k)
+  (if (<= k 0)
+      points
+      (let loop ((left  (list))
+		 (right (list))
+		 (step 1)
+		 (points points))
+	(if (< step (length points))
+	    (loop (cons (car points) left)
+		  (cons (list-ref points (- (length points) step)) right)
+		  (+ step 1)
+		  (let loop ((r (list))
+			     (p points)
+			     (i 0))
+		    (if (< i (- (length points) step))
+			(loop (cons (vect* (vect+ (car points)
+						  (cadr points))
+					   .5)
+				    r)
+			      (cdr p)
+			      (+ i 1))
+			(reverse r))))
+	    (let ((left
+		   (bezier:subdivide (reverse (cons (car points) left))
+				     (- k 1)))
+		  (right
+		   (bezier:subdivide (reverse (cons (car points) right))
+				     (- k 1))))
+	      (append left (cdr (reverse right))))))))
+
+(define (%forward-difference points)
+  (if (or (null? points) 
+	  (null? (cdr points)))
+      (list)
+      (cons (vect- (cadr points) (car points))
+	    (%forward-difference (cdr points)))))
+
+;; Return the point of a bezier at position n, where 
+;; 0.0 is the start of the curve and 1.0 is the end.
+(define (bezier:ref bezier n)
+  (when (or (< n 0)
+	    (> n 1))
+    (error "n must be between 0 and 1."))
+  (let ((l (length bezier)))
+    (let loop ((points bezier) 
+	       (step   1))
+      (if (< step l)
+	  (loop (let loop ((i 0)
+			   (r (list))
+			   (bezier points))
+		  (if (< i (- l step))
+		      (loop (+ i 1)
+			    (cons (vect+ (vect* (car bezier) (- 1 n))
+					 (vect* (cadr bezier) n))
+				  r)
+			    (cdr bezier))
+		      (reverse r)))
+		(+ step 1))
+	  (car (reverse points))))))
+
+;; Returns a list of points that make of a bezier curve.
+;; a higher /accuracy/ results in a higher resolution.
+;; (more points).
+(define (bezier->vects bezier accuracy)
+  (%subdivide bezier accuracy))
+
+;;-------------------------------------------------------
 ;; %
 ;;-------------------------------------------------------
 
 (define (%wrap-degree v)
-  (if (negative? v) (+ 360 v) v))
+  (if (negative? v) (+ 360 v) v)))
 
 (define (%f32vector-part v size)
   (assert (zero? (modulo (f32vector-length v) size)))
