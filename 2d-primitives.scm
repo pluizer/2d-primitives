@@ -27,7 +27,7 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 *
 (import chicken scheme foreign)
 (use data-structures srfi-1 srfi-4)
- 
+
 #>
 #include <float.h>
 #include "triangulate.h"
@@ -131,7 +131,7 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 ;; Subtract two vectors or negate a vector.
 (define (vect- a #!optional b)
   (if b (vect:create (- (vect:x a) (vect:x b))
-		   (- (vect:y a) (vect:y b)))
+		     (- (vect:y a) (vect:y b)))
       (vect:create (- (vect:x a))
 		   (- (vect:y a)))))
 
@@ -271,14 +271,14 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 ;; Add two coords.
 (define (coord+ a b)
   (coord:create (+ (coord:x a) (coord:x b))
-	     (+ (coord:y a) (coord:y b))))
+		(+ (coord:y a) (coord:y b))))
 
 ;; Subtract two coords or negate a coord.
 (define (coord- a #!optional b)
   (if b (coord:create (- (coord:x a) (coord:x b))
-		   (- (coord:y a) (coord:y b)))
+		      (- (coord:y a) (coord:y b)))
       (coord:create (- (coord:x a))
-		   (- (coord:y a)))))
+		    (- (coord:y a)))))
 
 
 ;;-------------------------------------------------------
@@ -479,8 +479,8 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 (define (%sort-vects vects)
   (sort vects
 	(lambda (a b) 
-	    (or (< (vect:x a) (vect:x b))
-		(= (vect:x a) (vect:y b))))))
+	  (or (< (vect:x a) (vect:x b))
+	      (= (vect:x a) (vect:y b))))))
 
 (define (%cross o a b)
   (- (* (- (vect:x a)
@@ -499,23 +499,23 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 	 (upper (list)))
     (if (<= (length vects) 1) vects
 	(begin
-	 (map (lambda (v)
-		(let loop ()
-		  (when (and (>= (length lower) 2)
-			     (<= (%cross (cadr lower) (car lower) v) 0))
-		    (set! lower (cdr lower))
-		    (loop)))
-		(set! lower (cons v lower)))
-	      vects)
-	 (map (lambda (v)
-	 	(let loop ()
-	 	  (when (and (>= (length upper) 2)
-	 		     (<= (%cross (cadr upper) (car upper) v) 0))
-		    (set! upper (cdr upper))
-	 	    (loop)))
-	 	(set! upper (cons v upper)))
-	      (reverse vects))
-	 (reverse (append (cdr lower) (cdr upper)))))))
+	  (map (lambda (v)
+		 (let loop ()
+		   (when (and (>= (length lower) 2)
+			      (<= (%cross (cadr lower) (car lower) v) 0))
+		     (set! lower (cdr lower))
+		     (loop)))
+		 (set! lower (cons v lower)))
+	       vects)
+	  (map (lambda (v)
+		 (let loop ()
+		   (when (and (>= (length upper) 2)
+			      (<= (%cross (cadr upper) (car upper) v) 0))
+		     (set! upper (cdr upper))
+		     (loop)))
+		 (set! upper (cons v upper)))
+	       (reverse vects))
+	  (reverse (append (cdr lower) (cdr upper)))))))
 
 ;; Converts any polygon to a convex polygon.
 (define (polygon:convex-hull vects)
@@ -554,13 +554,13 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 	       (s (/ c v)))
 	  (cond ((= mmax r)
 		 (hsv:create (%wrap-degree
-			    (* (fmod (/ (- g b) c) 6.0) 60.0)) s v a))
+			      (* (fmod (/ (- g b) c) 6.0) 60.0)) s v a))
 		((= mmax g)
 		 (hsv:create (%wrap-degree
-			    (* (+ (/ (- b r) c) 2.0) 60.0)) s v a))
+			      (* (+ (/ (- b r) c) 2.0) 60.0)) s v a))
 		(else
 		 (hsv:create (%wrap-degree
-			    (* (+ (/ (- r g) c) 4.0) 60.0)) s v a))))
+			      (* (+ (/ (- r g) c) 4.0) 60.0)) s v a))))
 	(hsv:create 0 0 0 a))))
 
 ;; Creates a new HSV colour
