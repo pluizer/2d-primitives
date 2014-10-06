@@ -637,10 +637,10 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 			      (+ i 1))
 			(reverse r))))
 	    (let ((left
-		   (bezier:subdivide (reverse (cons (car points) left))
+		   (%subdivide (reverse (cons (car points) left))
 				     (- k 1)))
 		  (right
-		   (bezier:subdivide (reverse (cons (car points) right))
+		   (%subdivide (reverse (cons (car points) right))
 				     (- k 1))))
 	      (append left (cdr (reverse right))))))))
 
@@ -675,7 +675,7 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 	  (car (reverse points))))))
 
 ;; Returns a list of points that make of a bezier curve.
-;; a higher /accuracy/ results in a higher resolution.
+;; A higher /accuracy/ results in a higher resolution
 ;; (more points).
 (define (bezier->vects bezier accuracy)
   (%subdivide bezier accuracy))
@@ -685,7 +685,7 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 ;;-------------------------------------------------------
 
 (define (%wrap-degree v)
-  (if (negative? v) (+ 360 v) v)))
+  (if (negative? v) (+ 360 v) v))
 
 (define (%f32vector-part v size)
   (assert (zero? (modulo (f32vector-length v) size)))
