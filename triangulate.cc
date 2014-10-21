@@ -136,8 +136,8 @@ bool isConvex(Vector* polygon, unsigned size)
 	// turning direction can be determined using the cross-product of
 	// the forward difference vectors
 	size_t i = size - 2, j = size - 1, k = 0;
-	Vector p{polygon[j].x - polygon[i].x, polygon[j].y - polygon[i].y};
-	Vector q{polygon[k].x - polygon[j].x, polygon[k].y - polygon[j].y};
+	Vector p(polygon[j].x - polygon[i].x, polygon[j].y - polygon[i].y);
+	Vector q(polygon[k].x - polygon[j].x, polygon[k].y - polygon[j].y);
 	float winding = p.x*q.y - p.y*q.x;
 
 	while (k+1 < size)
