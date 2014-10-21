@@ -3,6 +3,7 @@
 (author "Richard van Roy")
 (synopsis "A collection of primitives and linear algebra common for 2D graphics and 2D games.")
 (license "BSD")
+(repository "https://github.com/pluizer/2d-primitives")
 (category ui)
 (files "2d-primitives.setup"
        "triangulate.cc" 
