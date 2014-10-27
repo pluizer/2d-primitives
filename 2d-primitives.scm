@@ -422,7 +422,7 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 
 (define (rect:size rect)
   (vect:create (abs (- (rect:l rect)
-		   (rect:r rect)))
+		       (rect:r rect)))
 	       (abs (- (rect:b rect)
 		       (rect:t rect)))))
 
