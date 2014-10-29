@@ -532,50 +532,29 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 (define (polygon:convex-hull polygon)
   (convex-hull (polygon->vects polygon)))
 
-;; (define (polygon+ polygon vect)
-;;   (apply polygon:create (map (lambda (v) (vect+ v vect))
-;; 			     (polygon->vects polygon))))
-
-;; (define (polygon- polygon vect)
-;;   (apply polygon:create (map (lambda (v) (vect- v vect))
-;; 			     (polygon->vects polygon))))
-
-;; (define (polygon:rotate polygon angle #!optional (origin (zero-vect)))
-;;   (let ((ca (cos angle))
-;; 	(sa (sin angle))
-;; 	(ox (vect:x origin))
-;; 	(oy (vect:y origin)))
-;;    (apply polygon:create
-;; 	  (map (lambda (v)
-;; 		 (let ((x (vect:x v))
-;; 		       (y (vect:y v)))
-;; 		  (vect:create
-;; 		   (- (* (- x ox) ca)
-;; 		      (* (- y oy) sa))
-;; 		   (+ (* (- x ox) sa)
-;; 		      (* (- y oy) ca))))) 
-;; 	       (polygon->vects polygon)))))
-
 (define (polygon+ polygon vect)
-  (let* ((len (f32vector-length polygon))
-	 (ret (make-f32vector len)))
-    ((foreign-lambda void "polygon_add" f32vector f32vector int f32vector)
-     polygon vect len ret)
-    ret))
+  (apply polygon:create (map (lambda (v) (vect+ v vect))
+			     (polygon->vects polygon))))
 
 (define (polygon- polygon vect)
-  (let* ((len (f32vector-length polygon))
-	 (ret (make-f32vector len)))
-    ((foreign-lambda void "polygon_sub" f32vector f32vector int f32vector)
-     polygon vect len ret)
-    ret))
+  (apply polygon:create (map (lambda (v) (vect- v vect))
+			     (polygon->vects polygon))))
 
 (define (polygon:rotate polygon angle #!optional (origin (zero-vect)))
-  (let* ((len (f32vector-length polygon))
-	 (ret (make-f32vector len)))
-    ((foreign-lambda void "polygon_rotate" f32vector float f32vector int f32vector)
-     polygon angle origin len ret)
-    ret))
+  (let ((ca (cos angle))
+	(sa (sin angle))
+	(ox (vect:x origin))
+	(oy (vect:y origin)))
+   (apply polygon:create
+	  (map (lambda (v)
+		 (let ((x (vect:x v))
+		       (y (vect:y v)))
+		  (vect:create
+		   (- (* (- x ox) ca)
+		      (* (- y oy) sa))
+		   (+ (* (- x ox) sa)
+		      (* (- y oy) ca))))) 
+	       (polygon->vects polygon)))))
 
 ;;-------------------------------------------------------
 ;; Colour

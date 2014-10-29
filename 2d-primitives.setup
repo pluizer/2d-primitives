@@ -1,4 +1,4 @@
-(compile -s -c++ -O3 -d1 faster.cc triangulate.cc 2d-primitives.scm -j 2d-primitives -C -Wno-write-strings)
+(compile -s -c++ -O3 -d1 triangulate.cc 2d-primitives.scm -j 2d-primitives -C -Wno-write-strings)
 (compile -s -O3 -d0 2d-primitives.import.scm)
 (install-extension '2d-primitives '("2d-primitives.so" "2d-primitives.import.so")
 		   '((version "v0.2.3")))
