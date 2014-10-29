@@ -522,12 +522,8 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 	  (reverse (append (cdr lower) (cdr upper)))))))
 
 ;; Converts any polygon to a convex polygon.
-(define (polygon:convex-hull vects)
+(define (polygon:convex-hull polygon)
   (convex-hull (polygon->vects vects)))
-
-(define (polygon:rotate vects angle)
-
-)
 
 ;;-------------------------------------------------------
 ;; Colour
