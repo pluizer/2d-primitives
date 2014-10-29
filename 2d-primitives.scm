@@ -529,7 +529,7 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 
 ;; Converts any polygon to a convex polygon.
 (define (polygon:convex-hull polygon)
-  (convex-hull (polygon->vects vects)))
+  (convex-hull (polygon->vects polygon)))
 
 (define (polygon+ polygon vect)
   (apply polygon:create (map (lambda (v) (vect+ v vect))
