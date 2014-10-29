@@ -446,10 +446,8 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 ;;-------------------------------------------------------
 
 ;; Creates a new polygon from a list of vectors.
-(define-syntax polygon:create
-  (syntax-rules ()
-    ((_  vects)
-     (list->f32vector (append-map f32vector->list vects)))))
+(define (polygon:create #!rest vects)
+  (list->f32vector (append-map f32vector->list vects)))
 
 ;; Converts a polygon to a list of vertices.
 (define (polygon->vects polygon)
@@ -526,6 +524,10 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 ;; Converts any polygon to a convex polygon.
 (define (polygon:convex-hull vects)
   (convex-hull (polygon->vects vects)))
+
+(define (polygon:rotate vects angle)
+
+)
 
 ;;-------------------------------------------------------
 ;; Colour
