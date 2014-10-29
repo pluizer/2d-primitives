@@ -525,6 +525,22 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 (define (polygon:convex-hull polygon)
   (convex-hull (polygon->vects vects)))
 
+(define (polygon:rotate polygon angle #!optional (origin (zero-vect)))
+  (let ((ca (cos angle))
+	(sa (sin angle))
+	(ox (vect:x origin))
+	(oy (vect:y origin)))
+   (apply polygon:create
+	  (map (lambda (v)
+		 (let ((x (vect:x v))
+		       (y (vect:y v)))
+		  (vect:create
+		   (- (* (- x ox) ca)
+		      (* (- y oy) sa))
+		   (+ (* (- x ox) sa)
+		      (* (- y oy) ca))))) 
+	       (polygon->vects polygon)))))
+
 ;;-------------------------------------------------------
 ;; Colour
 ;;-------------------------------------------------------
