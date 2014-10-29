@@ -426,6 +426,12 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 	       (abs (- (rect:b rect)
 		       (rect:t rect)))))
 
+(define (rect->polygon rect)
+  (let ((l (rect:l rect))
+	(r (rect:r rect))
+	(t (rect:t rect))
+	(b (rect:b rect)))
+    (f32vector l t l b r b r t)))
 
 ;;-------------------------------------------------------
 ;; Lines
@@ -524,6 +530,14 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 ;; Converts any polygon to a convex polygon.
 (define (polygon:convex-hull polygon)
   (convex-hull (polygon->vects vects)))
+
+(define (polygon+ polygon vect)
+  (apply polygon:create (map (lambda (v) (vect+ v vect))
+			     (polygon->vects polygon))))
+
+(define (polygon- polygon vect)
+  (apply polygon:create (map (lambda (v) (vect- v vect))
+			     (polygon->vects polygon))))
 
 (define (polygon:rotate polygon angle #!optional (origin (zero-vect)))
   (let ((ca (cos angle))
