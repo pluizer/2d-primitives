@@ -31,7 +31,6 @@ Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
 #>
 #include <float.h>
 #include "triangulate.h"
-#include "faster.h"
 <#
 
 ;;-------------------------------------------------------
