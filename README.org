@@ -1,1 +1,18 @@
-A collection of primitives and linear algebra common for 2D graphics and 2D games.
+A toolbox with an extensive list of primitives and functions related to linear algebra for Chicken Scheme. Useful for o.a. 2d physics, graphics and games.
+- Version: 0.2.3.2
+- Author: Richard van Roy (pluizer)
+- Project: [[https://github.com/pluizer/2d-primitives]]
+- License: [[http://opensource.org/licenses/MIT][MIT]]
+
+Includes amongst other stuff primitives and functions for ...
+
+* Vectors
+* Coordinates
+* Angles
+* Rectangles
+* Lines
+* Polygons
+* Colours
+* Bézier curves
+
+For more information check out the pretty much self documenting [[https://github.com/pluizer/2d-primitives/blob/master/2d-primitives.scm][source]] or check out the full [[http://wiki.call-cc.org/eggref/4/2d-primitives][documentation]].
