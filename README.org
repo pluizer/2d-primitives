@@ -6,13 +6,13 @@ A toolbox with an extensive list of primitives and functions related to linear a
 
 Includes amongst other stuff primitives and functions for ...
 
-* Vectors
-* Coordinates
-* Angles
-* Rectangles
-* Lines
-* Polygons
-* Colours
-* Bézier curves
+- Vectors
+- Coordinates
+- Angles
+- Rectangles
+- Lines
+- Polygons
+- Colours
+- Bézier curves
 
 For more information check out the pretty much self documenting [[https://github.com/pluizer/2d-primitives/blob/master/2d-primitives.scm][source]] or check out the full [[http://wiki.call-cc.org/eggref/4/2d-primitives][documentation]].
