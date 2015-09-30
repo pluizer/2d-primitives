@@ -18,8 +18,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Parts of this file are ported to Chicken Scheme from
-Chipmunk2D's cpVect.h (c) 2007 - Scott Lembcke and Howling Moon Software.
-
 Triangulation functions are taken from the LOVE project
 Copyright (c) 2006-2013 LOVE Development Team.
