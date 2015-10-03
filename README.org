@@ -1,4 +1,4 @@
-A toolbox with an extensive list of primitives and functions related to linear algebra for Chicken Scheme. Useful for o.a. 2d physics, graphics and games.
+A toolbox with an extensive list of primitives and functions related to linear algebra for Chicken Scheme. Useful for 2d physics and other things, graphics and games.
 - Version: 0.2.3.2
 - Author: Richard van Roy (pluizer)
 - Project: [[https://github.com/pluizer/2d-primitives]]
