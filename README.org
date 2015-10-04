@@ -1,4 +1,4 @@
-A toolbox with an extensive list of primitives and functions related to linear algebra for Chicken Scheme. Useful for 2d physics, graphics, games etc. Used o.a. in my game engine [[https://github.com/pluizer/coati-2d][Coati]].
+A toolbox with an extensive list of primitives and functions related to linear algebra for Chicken Scheme. Useful for 2d physics, graphics, games etc. Used in my game engine [[https://github.com/pluizer/coati-2d][Coati]].
 
 - Version: 0.2.3.2
 - Author: Richard van Roy (pluizer)
