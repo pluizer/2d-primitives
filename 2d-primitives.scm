@@ -22,8 +22,17 @@ SOFTWARE.
 
 (module 2d-primitives
 *
-(import chicken scheme foreign)
-(use data-structures srfi-1 srfi-4)
+
+(import scheme)
+
+(cond-expand
+      (chicken-4 (import chicken foreign)
+                 (use data-structures srfi-1 srfi-4))
+      (chicken-5 (import (chicken base)
+                         (chicken foreign)
+                         (chicken sort)
+                         srfi-1
+                         srfi-4)))
 
 #>
 #include <float.h>

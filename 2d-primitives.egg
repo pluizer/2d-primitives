@@ -1,0 +1,10 @@
+((author "Richard van Roy")
+ (synopsis "A collection of primitives and linear algebra common for 2D graphics and 2D games.")
+ (license "BSD")
+ (category math)
+ (dependencies srfi-1)
+ (component-options (csc-options -c++ -O3 -C -Wno-write-strings -C -O3))
+ (components (c-object triangulate
+                       (source "triangulate.cc"))
+             (extension 2d-primitives
+                        (objects triangulate))))
